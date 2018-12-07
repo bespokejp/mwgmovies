@@ -1,0 +1,81 @@
+<div id="room">
+<article>
+
+<%= form_with(model: room, local: true) do |form| %>
+  <% if room.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(room.errors.count, "error") %> prohibited this room from being saved:</h2>
+
+      <ul>
+      <% room.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h2 class="subtitle">基本データ</h2>
+
+  <div class="field">
+    <%= form.label :name, class: 'label' %>
+    <%= form.text_field :name, class: 'input is-medium', placeholder: 'ルームのタイトルを入力してください' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :headline, class: 'label' %>
+    <%= form.text_field :headline, class: 'input is-medium', placeholder: '見出しを入力してください' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: 'label' %>
+    <%= form.hidden_field :description, id: 'room_description', class: 'input is-medium', placeholder: '紹介文を入力してください' %>
+    <trix-editor input="room_description" id="room_description">
+  </div>
+
+  <hr>
+
+  <h2 class="subtitle">パッケージ画像</h2>
+
+  <div class="field">
+    <%= form.file_field :package %>
+  </div>
+  <article class="message is-info">
+    <div class="message-body">
+      パッケージ画像は、作品の一覧、マイページの購入作品一覧などで使用されます。
+    </div>
+  </article>
+
+  <hr>
+
+  <h2 class="subtitle">参考イメージ</h2>
+
+  <div class="field">
+    <%= form.file_field :images, multiple: true %>
+  </div>
+  <article class="message is-warning">
+    <div class="message-body">
+      参考イメージは<b>Shift+クリック</b>で選択することで複数画像のアップロードができます。
+    </div>
+  </article>
+  <article class="message is-info">
+    <div class="message-body">
+      参考イメージは、作品詳細ページのスライドで使用されます。
+    </div>
+  </article>
+
+  <hr>
+
+  <h2 class="title">販売情報</h2>
+
+  <div class="field">
+    <%= form.label :price, class: 'label' %>
+    <%= form.number_field :price, class: 'input is-medium', placeholder: '価格を入力してください' %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: 'button is-primary' %>
+  </div>
+<% end %>
+
+</article>
+</div>

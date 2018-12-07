@@ -1,0 +1,35 @@
+<div class="">
+  <h1 class="title">ログイン</h1>
+  <%= form_with url: user_sessions_path, local: true do |form| %>
+    <div class="field">
+      <div class="control has-icons-left">
+        <%= form.text_field :email, id: :login_email, class: 'input is-medium', placeholder: 'メールアドレス' %>
+        <span class="icon is-small is-left">
+          <%= icon 'fas', 'envelope' %>
+        </span>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control has-icons-left">
+        <%= form.password_field :password, id: :login_password, class: 'input is-medium', placeholder: 'パスワード' %>
+        <span class="icon is-small is-left">
+          <%= icon 'fas', 'key' %>
+        </span>
+      </div>
+    </div>
+    <div class="field">
+
+    <div class="field">
+      <label class="checkbox">
+        <%= check_box_tag :remember, params[:remember], true %>
+        ログイン状態を保存する
+      </label>
+    </div>
+
+    </div>
+    <div class="actions" style="text-align: center;">
+      <%= form.submit 'ログイン', id: 'user_login', class: 'button is-primary is-medium is-centerd' %>
+    </div>
+      <%= link_to 'パスワードを忘れてしまった方はこちら', forgot_password_path %>
+  <% end %>
+</div>

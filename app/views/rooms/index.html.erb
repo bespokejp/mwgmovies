@@ -1,0 +1,43 @@
+<div class="welcome_contents container">
+
+  <section class="contents">
+    <div class="contents_inner">
+      <div class="columns is-multiline">
+
+      <% Room.all.each do |room| %>
+
+        <div class="column is-4">
+          <%= link_to room_path(room) do %>
+          <div class="card">
+            <div class="card-image">
+              <figure class="image">
+                <%= image_tag room.package.url if room.package? %>
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4"><%= room.name %></p>
+                  <p class=""><%= room.headline %></p>
+                </div>
+              </div>
+
+              <div class="content">
+                <% if room.is_free? %>
+                  <span class="price">無料</span>
+                <% else %>
+                  <span class="price">価格: <%= room.price %>円</span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        </div>
+
+      <% end %>
+
+      </div><%# columns %>
+    </div>
+  </section>
+
+</div>

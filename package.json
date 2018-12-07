@@ -1,0 +1,18 @@
+{
+  "name": "mwgmovies",
+  "private": true,
+  "dependencies": {
+    "@glidejs/glide": "^3.2.2",
+    "@rails/webpacker": "3.5",
+    "bulma": "^0.7.1",
+    "bulma-extensions": "^2.2.2",
+    "hls.js": "^0.11.0",
+    "trix": "^0.12.0",
+    "vue": "^2.5.16",
+    "vue-loader": "14.2.2",
+    "vue-template-compiler": "^2.5.16"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  }
+}

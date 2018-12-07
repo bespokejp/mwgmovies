@@ -1,0 +1,50 @@
+<% if current_user&.is_admin? %>
+<article class="message is-info">
+  <div class="message-header">
+    購入に関する情報
+  </div>
+  <div class="message-body">
+    今までに <%= Payment.all.count %>作品購入されました。
+  </div>
+</article>
+<hr>
+<% end %>
+
+<h1 class="title">購入した作品一覧</h1>
+
+  <section class="contents">
+    <div class="contents_inner">
+      <div class="columns is-multiline">
+
+      <% current_user.purchased_rooms.each do |room| %>
+
+        <div class="column is-4">
+          <%= link_to room_path(room) do %>
+          <div class="card">
+            <div class="card-image">
+              <figure class="image">
+                <%= image_tag room.package.url if room.package? %>
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4"><%= room.name %></p>
+                </div>
+              </div>
+
+              <div class="content">
+                <%= sanitize room.headline %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        </div>
+
+      <% end %>
+
+      </div><%# columns %>
+    </div>
+  </section>
+
+<h2 class="title is-hidden">お気に入りの作品</h2>

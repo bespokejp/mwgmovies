@@ -1,0 +1,58 @@
+<section class="contents">
+  <div class="contents_inner">
+    <h2 class="title section-title"><span>ルームの新着情報</span></h2>
+    <div class="columns is-multiline">
+      <% 6.times do%>
+      <div class="column is-4">
+        <%= link_to video_path(1) do %>
+          <div class="card">
+            <div class="card-image">
+              <figure class="image">
+                <img src="https://placehold.it/1200x500.png" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Phasellus nec iaculis mauris. 
+                <br>
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <% end %>
+    </div><%# columns %>
+  </div>
+</section>
+
+<style>
+html,body{
+  height: 100%;
+  margin: 0;
+}
+body {
+  width: 100%;
+  height: 100%;
+  <% if @room.background? %>
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), #fff 60%), url(<%= @room.background.url if @room.background? %>) no-repeat;
+  <% else %>
+    background: linear-gradient(to bottom, rgba(202, 211, 200, 0.5), #fff 60%),  no-repeat;
+  <% end %>
+  background-size: auto, cover;
+  position: relative;
+  z-index: 0;
+}
+body:before {
+  content: '';
+  background: inherit;
+  filter: blur(3px);
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  z-index: -1;
+}
+</style>

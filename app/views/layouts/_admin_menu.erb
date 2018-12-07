@@ -1,0 +1,30 @@
+<div class="navbar-item has-dropdown is-hoverable">
+
+<% if current_user&.is_admin? %>
+  <p class="control">
+    <div class="navbar-item has-dropdown is-hoverable">
+      <%= link_to '管理メニュー', '#', class: 'navbar-link' %>
+      <div class="navbar-dropdown is-boxed">
+        <%= link_to '作品を登録', new_room_path, class: 'navbar-item' %>
+
+<% if @room&.id && loyalty(@room, :rooms).update? %>
+  <hr class="navbar-divider">
+  <%= link_to icon("fas", "th-list", "作品の動画一覧"), room_videos_path(@room), class: "navbar-item" %>
+  <%= link_to icon("fas", "plus", "作品に動画を追加"), new_room_video_path(@room), class: "navbar-item" %>
+  <%= link_to icon("fas", "edit", "作品の情報編集"), edit_room_path(@room), class: "navbar-item" %>
+  <%= link_to icon("fas", "trash-alt", '作品の削除'), room_path(@room), method: :delete, class: 'navbar-item', data: { confirm: '本当に削除してよろしいですか？※削除したら元に戻せません' } %>
+<% end %>
+
+<% if @video&.id && loyalty(@video, :videos).update? %>
+  <hr class="navbar-divider">
+  <%= link_to icon("fas", "edit", '動画の情報を変更'), edit_video_path(@video), class: 'navbar-item' %>
+  <%= link_to icon("fas", "upload", '動画の再アップロード'), upload_video_path(@video), class: 'navbar-item' %>
+  <%= link_to icon("fas", "trash-alt", '動画を削除する'), video_path(@video), method: :delete, class: 'navbar-item', data: { confirm: '本当に削除してよろしいですか？※削除したら元に戻せません' } %>
+<% end %>
+
+      </div>
+    </div>
+  </p>
+<% end %>
+
+</div>

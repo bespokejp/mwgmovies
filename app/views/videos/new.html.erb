@@ -1,0 +1,32 @@
+<h1 class="title">動画のタイトル・説明を入力してください</h1>
+
+<%= form_with(model: [@room, @video], local: true) do |form| %>
+  <% if @video.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@video.errors.count, "error") %> prohibited this video from being saved:</h2>
+
+      <ul>
+      <% @video.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title, class: 'label' %>
+    <%= form.text_field :title, class: 'input' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :thumbnail, 'サムネイル画像', class: 'label' %>
+    <%= form.file_field :thumbnail %>
+  </div>
+
+  <hr>
+  
+  <div class="actions">
+    <%= form.submit "動画のアップロードにすすむ" %>
+  </div>
+<% end %>
+

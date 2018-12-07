@@ -1,0 +1,126 @@
+<div id="room">
+  <div class="columns">
+    <div class="column is-7">
+      <div class="glide">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides">
+            <% @room.images.each do |image| %>
+            <li class="glide__slide">
+              <%= image_tag image.url %>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <article>
+        <h2 class="subtitle"><%= @room.headline %></h2>
+        <%= sanitize @room.description %>
+      </article>
+    </div>
+    <div class="column">
+      <div class="payment">
+        <h1 class="room_title"><%= @room.name %></h1>
+        <div class="presenter">
+          <%= image_tag @room.package.url if @room.package? %>
+          <% if @room.is_free? %>
+            <p class="price">無料</p>
+          <% else %>
+            <p class="price"><%= @room.price %><span>円(税込)</span></p>
+          <% end %>
+          
+        </div>
+        <div class="purchase">
+
+        <% if @room.videos.count == 0 %>
+          ※ただいま動画の準備中です
+        <% else %>
+
+          <% unless current_user %>
+            <%= link_to "ログインして作品を見る", login_path, class: "button room_primary" %>
+          <% else %>
+            <% if current_user.purchased?(@room.id) || @room.is_free? %>
+              <% if @room.videos.all.count == 1 %>
+                <%= link_to "作品を再生する", video_path(@room.videos.last.id), class: "button room_primary" %>
+              <% else %>
+                <%= link_to "収録作品一覧を表示", room_videos_path(@room), class: "button room_primary" %>
+              <% end %>
+            <% else %>
+              <%= form_with(url: payments_path(@room)) do %>
+                  <% if flash[:error].present? %>
+                    <div id="error_explanation">
+                      <p><%= flash[:error] %></p>
+                    </div>
+                  <% end %>
+
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                  data-description="<%= @room.name %>を購入する"
+                  data-amount="<%= @room.price %>"
+                  data-locale="auto"
+                  data-currency="jpy"
+                  data-email="<%= current_user.email %>"
+                  data-label="この商品を購入する"
+                  ></script>
+              <% end %>
+            <% end %>
+          <% end %>
+          
+        <% end %>
+
+        </div>
+      </div>
+
+      <div class="content is-hidden">
+        <div class="content_inner">
+          <p class="content_label">作品に関する情報</p>
+          <h3><%= icon('fas', 'file-video') %>収録映像</h3>
+          <ul>
+            <li>「売上のあがる」感動サービスを提供するための具体的な方法</li>
+            <li>短期間で、売れるスタッフを育てるセミナー</li>
+            <li>若手スタッフ コミュニケーション研修</li>
+            <li>スタッフのやる気と行動力が高まる教え方・育て方研修</li>
+            <li>接客講座『販売力アップ！売れる接客セミナー』の開催</li>
+            <li>新入社員向け　接客コミュニケーション研修</li>
+          </ul>
+          <h3><%= icon('fas', 'file-alt') %>トランスクリプト</h3>
+          <p>セミナーの内容を読めるように文字起こした物をPDFでダウンロードして読む事ができます。もちろん、ブラウザ上でよむ事も可能です。</p>
+          <h3><%= icon('fas', 'comments') %>受講者限定フォーラム</h3>
+          <h3><%= icon('fas', 'question-circle') %>プレゼンターに直接質問できる Q&A</h3>
+          <p>※今後追加されるコンテンツも全てご利用いただけます</p>
+        </div>
+      </div>
+
+      <% if current_user&.is_admin? %>
+        <div class="content_for_admin">
+          <div class="content_inner">
+            <p class="content_label">現在の購入者: <%= @room.payments.all.count %>人</p>
+          </div>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<% if @room.images? %>
+<script>
+let peek_width
+if (getDevice != "mobile") {
+  peek_width = 50
+} else {
+  peek_width = 0
+}
+new Glide('.glide', {
+  type: 'carousel',
+  autoplay: 5000,
+  hoverpause: true,
+  swipeThreshold: 80,
+  startAt: 0,
+  perView: 1,
+  peek: {
+    before: peek_width,
+    after: peek_width
+  }
+}).mount()
+</script>
+<% end %>

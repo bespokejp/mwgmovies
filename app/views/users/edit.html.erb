@@ -1,0 +1,41 @@
+<h1 class="title">プロフィール変更</h1>
+
+<%= form_with(model: @user, local: true) do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, id: :user_name, class: "input is-medium" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :email, class: "label" %>
+    <%= form.text_field :email, id: :user_email, class: "input is-medium" %>
+  </div>
+
+  <div class="field">
+    <%= form.label :bio, class: "label" %>
+    <%= form.text_area :bio, id: :user_bio, class: "input is-medium" %>
+  </div>
+
+  <div class="field">
+    <%= image_tag @user.avatar.url if @user.avatar? %>
+    <%= form.label :avatar %><br>
+    <%= form.file_field :avatar %>
+    <%= form.hidden_field :avatar_cache %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: "button is-primary" %>
+  </div>
+<% end %>

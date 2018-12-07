@@ -1,0 +1,31 @@
+<%= form_with model: @inquiry, url: inquiries_confirm_path, local: true do |f| %>
+  <h1 class="title">お問い合わせ</h1>
+
+  <% if @inquiry.errors.any? %>
+    <div class="alert alert-danger" role="alert">
+      <strong>入力内容にエラーがあります</strong>
+      <ul>
+        <% @inquiry.errors.each do |attr, msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label '名前' %><span class="require">必須</span>
+    <%= f.text_field :name, class: 'input' %>
+  </div>
+
+  <div class="field">
+    <%= f.label 'メールアドレス' %><span class="require">必須</span>
+    <%= f.text_field :email, class: 'input' %>
+  </div>
+
+  <div class="field">
+    <%= f.label 'お問い合わせ内容' %><span class="require">必須</span>
+    <%= f.text_area :message, class: 'textarea', cols: '', rows: 10 %>
+  </div>
+
+  <%= f.submit '確認', class: 'button' %>
+<% end %>

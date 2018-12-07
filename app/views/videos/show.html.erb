@@ -1,0 +1,51 @@
+<% if @stream_url_ready %>
+<section class="contents">
+  <video id="video" controls width="100%"></video>
+  <script>
+    var video = document.getElementById('video');
+    var hls_src = '<%= @video.stream_url %>'
+    if(Hls.isSupported()) {
+      var hls = new Hls();
+      hls.loadSource(hls_src);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED,function() {});
+    }
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = hls_src
+      video.addEventListener('loadedmetadata',function() {});
+    }
+  </script>
+</section>
+<% else %>
+<div class="notification">
+  <article class="message">
+  <div class="message-header">
+    <p>この動画は現在エンコード中です</p>
+  </div>
+  <div class="message-body">
+    この動画は現在エンコード中です。しばらく経ってからアクセスしてください。
+  </div>
+</article>
+  
+</div>
+<% end %>
+
+<% if current_user&.admin? %>
+
+<div style="display: none;">
+  <hr>
+  <p>
+    <strong>Title:</strong>
+    <%= @video.title %>
+  </p>
+  <p>
+    <strong>S3 key:</strong>
+    <%= @video.s3_key %>
+  </p>
+  <p>
+    <strong>stream_url:</strong>
+    <%= @video.stream_url %>
+  </p>
+</div>
+
+<% end %>

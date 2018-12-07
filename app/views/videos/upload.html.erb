@@ -1,0 +1,93 @@
+<h1 class="title">動画をアップロードする</h1>
+
+<ul>
+  <li>動画のアップロードに時間がかかります。</li>
+  <li>mp4形式のファイルのみアップロードができます</li>
+  <li>アップロードが終わる前に、ページの移動やブラウザを閉じないでください</li>
+</ul>
+
+<%= render 'upload_script' %>
+
+<%= form_for(@video, html: { class: 'directUpload', data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } }) do |form| %>
+  <div class="field">
+    <%= form.file_field :s3_key, id: "s3keyfield", accept: 'video/mp4' %>
+  </div>
+<% end %>
+
+<p>100%になったら、↓に<span class="tag is-primary">動画情報を送信</span>ボタンが表示されるので、必ずクリックしてください。</p>
+<%= form_with(model: @video, local: true, html: { id: 'main_form' }) do |form| %>
+  <div class="actions submit_video" style="display: none;">
+    <%= form.submit '動画情報を送信', class: 'button is-primary' %>
+  </div>
+<% end %>
+
+<script>
+  $(function() {
+    $('.directUpload').find("#s3keyfield").each(function(i, elem) {
+      var fileInput    = $(elem);
+      var form         = $(fileInput.parents('form:first'));
+      var main_form    = $("#main_form")
+      var submitButton = main_form.find('input[type="submit"]');
+      var progressBar  = $("<div class='bar'></div>");
+      var barContainer = $("<div class='progress'></div>").append(progressBar);
+      fileInput.after(barContainer);
+      fileInput.fileupload({
+        fileInput:       fileInput,
+        url:             form.data('url'),
+        type:            'POST',
+        autoUpload:       true,
+        formData:         form.data('form-data'),
+        paramName:        'file', // S3 does not like nested name fields i.e. name="user[avatar_url]"
+        dataType:         'XML',  // S3 returns XML if success_action_status is set to 201
+        replaceFileInput: false,
+        progressall: function (e, data) {
+          var progress = parseInt(data.loaded / data.total * 100, 10);
+          progressBar.css('width', progress + '%')
+          progressBar.text(progress + '%')
+        },
+        start: function (e) {
+          submitButton.prop('disabled', true);
+          progressBar.
+            css('background', '#98f3e4').
+            css('display', 'block').
+            css('width', '0%');
+        },
+        done: function(e, data) {
+          submitButton.prop('disabled', false);
+          progressBar.text("Uploading done");
+          progressBar.css('background', '#48d7f1')
+          var full_path   = $(data.jqXHR.responseXML).find("Key").text();
+          var key = full_path.split('/').slice(-1)[0].replace('.mp4', '')
+          // create hidden field
+          var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: key })
+          $(".submit_video").show();
+          alert("動画のアップロードが完了しました。[動画情報を送信]をクリックして完了してください。")
+          main_form.append(input);
+          // form.submit();
+        },
+        fail: function(e, data) {
+          submitButton.prop('disabled', false);
+          progressBar.
+            css("background", "red").
+            css('width', '100%').
+            text("Failed");
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .progress {
+    max-width: 600px;
+    margin: 0.2em 0 0.2em 0;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .progress .bar {
+    padding-left: 0.2em;
+    color:   white;
+    display: none;
+  }
+</style>

@@ -1,0 +1,25 @@
+<section class="contents">
+  <div class="contents_inner">
+    <h2 class="title section-title"><span>収録されている動画一覧</span></h2>
+    <div class="columns is-multiline">
+      <% @videos.each do |video| %>
+      <div class="column is-4">
+        <%= link_to video_path(video) do %>
+          <div class="card">
+            <div class="card-image">
+              <figure class="image">
+                <%= image_tag video.thumbnail.url if video.thumbnail? %>
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <%= video.title %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <% end %>
+    </div><%# columns %>
+  </div>
+</section>

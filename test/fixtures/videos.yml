@@ -1,0 +1,22 @@
+# == Schema Information
+#
+# Table name: videos
+#
+#  id         :bigint(8)        not null, primary key
+#  title      :string
+#  s3_key     :string
+#  room_id    :integer          not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  thumbnail  :string
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# one:
+#   title: MyString
+#   s3_key: MyString
+
+# two:
+#   title: MyString
+#   s3_key: MyString

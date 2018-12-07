@@ -1,0 +1,52 @@
+<div class="main_container container">
+
+<h1 class="title">ユーザー登録</h1>
+
+<%# TODO ここに登録するメリットとか書く %>
+
+<%= form_with(model: @user, local: true) do |form| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <div class="field">
+    <%= form.label :email, 'メールアドレス', class: 'label' %>
+    <div class="control has-icons-left">
+      <%= form.text_field :email, id: :user_email, class: 'input is-medium', placeholder: '例: aaa@example.com' %>
+      <span class="icon is-small is-left">
+        <%= icon 'fas', 'envelope' %>
+      </span>
+    </div>
+  </div>
+  <div class="field">
+    <%= form.label :name, class: 'label' %>
+    <div class="control has-icons-left">
+      <%= form.text_field :name, id: :user_name, class: 'input is-medium', placeholder: '例: うぇびなび' %>
+      <span class="icon is-small is-left">
+        <%= icon 'fas', 'user' %>
+      </span>
+    </div>
+  </div>
+  <div class="field">
+    <%= form.label :password, class: 'label' %>
+    <div class="control has-icons-left">
+      <%= form.password_field :password, id: :user_password, class: 'input is-medium', placeholder: '例: webi1234navi' %>
+      <span class="icon is-small is-left">
+        <%= icon 'fas', 'key' %>
+      </span>
+    </div>
+  </div>
+  <div class="actions">
+    <%= form.submit class: 'button is-primary is-medium' %>
+  </div>
+<% end %>
+
+</div>

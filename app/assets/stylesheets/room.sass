@@ -1,0 +1,86 @@
+.room_title
+  font-size: 24px
+  font-weight: bold
+  color: #fff
+  position: relative
+  .room_subtitle
+    position: absolute
+
+=room_primary
+  $purchase_button_color: #7cd8c4
+  font-weight: bold
+  border: none
+  background: none
+  color: #fff
+  background-color: $purchase_button_color
+  border-bottom: solid 4px darken($purchase_button_color, 20%)
+  font-size: 20px
+  border-radius: 3px
+  transition: all 0.15s ease-out
+  &:hover
+    background-color: lighten($purchase_button_color, 5)
+    border-bottom: solid 4px darken($purchase_button_color, 20%)
+    color: #fff
+
+.room_primary
+  +room_primary
+
+#room
+  .payment
+    padding-bottom: 30px
+    // background: linear-gradient(to right bottom, rgb(255, 236, 143) 20%, rgb(255, 208, 185))
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.03)
+    border: 1px solid #f4f4f4
+    text-align: center
+    h1.room_title
+      font-weight: bold
+      background-color: #dcdcdc
+      padding: 10px
+      margin-bottom: 10px
+      color: #fff
+    .presenter
+      padding: 10px 30px
+      img
+        // $presenter_avatar_size: 200px
+        // width: $presenter_avatar_size
+        // border-radius: $presenter_avatar_size
+      .name
+        font-weight: bold
+      .bio
+        text-align: left
+        margin: 15px 0
+    .price
+      font-size: 30px
+      font-weight: bold
+      span
+        font-size: 18px
+    .purchase
+      #payjp_checkout_box
+        input[type="button"]
+          +room_primary
+        i
+          margin-right: 10px
+  .content
+    background-color: #fffdf0
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2)
+    .content_inner
+      padding: 30px
+      .content_label
+        text-align: center
+        font-weight: bold
+        &:before
+          content: '▼'
+        &:after
+          content: '▼'
+      h3
+        font-size: 20px
+  .content_for_admin
+    background-color: #f4feff
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2)
+    .content_inner
+      padding: 30px
+      .content_label
+        text-align: center
+        font-weight: bold
+      h3
+        font-size: 20px

@@ -1,0 +1,27 @@
+<div class="navbar-item has-dropdown is-hoverable">
+
+<% if current_user %>
+
+  <%= link_to mypage_path, class: "navbar-link" do %>
+    <%= icon('fas', 'user', 'マイページ') %>
+  <% end %>
+  <div class="navbar-dropdown">
+    <%= link_to '購入した作品を表示', mypage_path, class: 'navbar-item' %>
+    <%= link_to 'プロフィールを変更', edit_user_path(current_user), class: 'navbar-item' %>
+    <%= link_to 'パスワード変更', change_password_user_path(current_user), class: 'navbar-item' %>
+    <%= link_to 'ログアウト', logout_path, method: :post, class: 'navbar-item' %>
+  </div>
+
+<% else %>
+
+  <%= link_to login_path, class: "navbar-link" do %>
+    <%= icon('fas', 'key', 'ログイン/新規登録') %>
+  <% end %>
+  <div class="navbar-dropdown">
+    <%= link_to 'ログイン', login_path, class: 'navbar-item' %>
+    <%= link_to '新規登録', new_user_path, class: 'navbar-item' %>
+  </div>
+
+<% end %>
+
+</div>
